@@ -1,0 +1,73 @@
+name: 签到
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: 0 16 * * ?
+  watch:
+    types: started
+    
+jobs:
+  run-it:
+    runs-on: ubuntu-latest
+    name: 签到
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+        - name: Checkout codes
+          uses: actions/checkout@v2
+        
+        - name: 运行时间
+          run: |
+           time=$(curl -s "http://quan.suning.com/getSysTime.do")
+           echo -e "当前时间：$(echo "${time}" | awk -F '":"|","' '{print $2}')"
+           
+        - name: Run 网站1
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ }}
+           tg_bot_TOKEN: ${{ secrets.TG_BOT_TOKEN }} 
+           tg_user_ID: ${{ secrets.TG_USER_ID }}
+          run: |
+           bash checkin.sh
+           
+        - name: Run 网站2
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ2 }}
+          run: |
+           bash checkin.sh ${user} ${mm} ${wz}
+           
+        - name: Run 网站3
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ3 }}
+          run: |
+           bash checkin.sh ${user} ${mm} ${wz}
+           
+        - name: Run 网站4
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ4 }}
+          run: |
+           bash checkin.sh ${user} ${mm} ${wz}
+           
+        #- name: Run 网站5
+          #env:
+           #user: ${{ secrets.USER }}
+           #mm: ${{ secrets.MM }}
+           #wz: ${{ secrets.WZ5 }}
+          #run: |
+           #bash checkin.sh ${user} ${mm} ${wz}
+           
+        - name: Run 网站6
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ6}}
+          run: |
+           bash checkin.sh ${user} ${mm} ${wz}
