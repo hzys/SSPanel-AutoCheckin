@@ -1,8 +1,9 @@
 name: 签到
 
 on:
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
+  workflow_dispatch:
   schedule:
     - cron: 0 16 * * ?
   watch:
@@ -56,13 +57,13 @@ jobs:
           run: |
            bash checkin.sh ${user} ${mm} ${wz}
            
-        #- name: Run 网站5
-          #env:
-           #user: ${{ secrets.USER }}
-           #mm: ${{ secrets.MM }}
-           #wz: ${{ secrets.WZ5 }}
-          #run: |
-           #bash checkin.sh ${user} ${mm} ${wz}
+        - name: Run 网站5
+          env:
+           user: ${{ secrets.USER }}
+           mm: ${{ secrets.MM }}
+           wz: ${{ secrets.WZ5 }}
+          run: |
+           bash checkin.sh ${user} ${mm} ${wz}
            
         - name: Run 网站6
           env:
